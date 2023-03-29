@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  web:
+    ports:
+      - 9000:80
+      - 9001:443
+    networks:
+      - hobbystacks-net
+
+  api:
+    ports:
+      - 9010:80
+      - 9011:443
+    networks:
+      - hobbystacks-net
+
+  db:
+    ports:
+      - 5432:5432
+    networks:
+      - hobbystacks-net
+
+networks:
+  hobbystacks-net:

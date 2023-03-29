@@ -1,0 +1,435 @@
+trigger:
+  - main
+
+resources:
+  - repo: self
+
+parameters:
+  - name: isDebugApi
+    displayName: Is Debugging 'Api' Build?
+    type: boolean
+    default: false
+  - name: isDebugWebSpa
+    displayName: Is Debugging 'Web SPA' Build?
+    type: boolean
+    default: false
+  - name: isDebugInfrastructure
+    displayName: Is Debugging 'Infrastructure' Build?
+    type: boolean
+    default: false
+
+variables:
+  - group: "hobbystacks-ci"
+
+  - name: docker-image-basename
+    value: "$(build-docker-registry)/$(build-docker-repository)/hobbystacks"
+  - name: docker-image-tag
+    value: "$(Build.BuildNumber)"
+
+stages:
+  ########################################
+  # STAGE: Test
+  ########################################
+  - stage: TestStage
+    displayName: Test
+    jobs:
+      #
+      #--[JOB: ApiJob]
+      #
+      - job: ApiJob
+        displayName: APIs (hobbystacks-api)
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: Bash@3
+            displayName: Run Code Quality Tests
+            inputs:
+              targetType: "inline"
+              script: "echo 'RUN CODE QUALITY TESTS!'"
+          - task: DotNetCoreCLI@2
+            displayName: Run Unit Tests
+            inputs:
+              command: "test"
+              projects: "**/*-unit-tests.csproj"
+          - task: DockerCompose@0
+            displayName: Start Test Database
+            inputs:
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: "hobbystacks-docker-registry"
+              dockerComposeFile: "$(Build.SourcesDirectory)/src/docker-compose/docker-compose.yml"
+              additionalDockerComposeFiles: "$(Build.SourcesDirectory)/src/docker-compose/docker-compose.testing.yml"
+              dockerComposeFileArgs: |
+                DB_DRIVER=$(tests-api-db-driver)
+                DB_HOST=$(tests-api-db-host)
+                DB_PORT=$(tests-api-db-port)
+                DB_NAME=$(tests-api-db-name)
+                DB_USER=$(tests-api-db-user)
+                DB_PASSWORD=$(tests-api-db-password)
+                API_CATALOG_BASEURL=
+                API_HISTORY_BASEURL=
+                DOCKER_REGISTRY=
+                DOCKER_TAG=
+              action: "Run a Docker Compose command"
+              dockerComposeCommand: "up -d db"
+          - task: DotNetCoreCLI@2
+            displayName: Install 'dotnet ef' Tool
+            inputs:
+              command: "custom"
+              custom: "tool "
+              arguments: "install --global dotnet-ef"
+          - task: PowerShell@2
+            displayName: Deploy Schemas
+            inputs:
+              targetType: "inline"
+              script: |
+                dotnet ef database update -c TeaCatalogContext -p hobbystacks-api-dotnet.csproj
+                dotnet ef database update -c TeaHistoryContext -p hobbystacks-api-dotnet.csproj
+              workingDirectory: "$(Build.SourcesDirectory)/src/api/hobbystacks-api-dotnet"
+            env:
+              DB_DRIVER: $(tests-api-db-driver)
+              DB_HOST: $(tests-api-db-host)
+              DB_PORT: $(tests-api-db-port)
+              DB_NAME: $(tests-api-db-name)
+              DB_USER: $(tests-api-db-user)
+              DB_PASSWORD: $(tests-api-db-password)
+          - task: DotNetCoreCLI@2
+            displayName: Seed Test Data
+            inputs:
+              command: "run"
+              projects: "**/*-dbinit.csproj"
+              arguments: "seedTestData"
+            env:
+              DB_DRIVER: $(tests-api-db-driver)
+              DB_HOST: $(tests-api-db-host)
+              DB_PORT: $(tests-api-db-port)
+              DB_NAME: $(tests-api-db-name)
+              DB_USER: $(tests-api-db-user)
+              DB_PASSWORD: $(tests-api-db-password)
+          - task: DotNetCoreCLI@2
+            displayName: Run Component Integration Tests
+            inputs:
+              command: "test"
+              projects: "**/*-integration-tests.csproj"
+            env:
+              DB_DRIVER: $(tests-api-db-driver)
+              DB_HOST: $(tests-api-db-host)
+              DB_PORT: $(tests-api-db-port)
+              DB_NAME: $(tests-api-db-name)
+              DB_USER: $(tests-api-db-user)
+              DB_PASSWORD: $(tests-api-db-password)
+              API_CATALOG_BASEURL:
+              API_HISTORY_BASEURL:
+      #
+      #--[JOB: WebSpaJob]
+      #
+      - job: WebSpaJob
+        displayName: Web SPA (hobbystacks-web-spa)
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: Bash@3
+            displayName: Run Code Quality Tests
+            inputs:
+              targetType: "inline"
+              script: "echo 'RUN CODE QUALITY TESTS!'"
+          - task: Npm@1
+            displayName: Install NPM Packages
+            inputs:
+              command: "install"
+              workingDir: "$(Build.SourcesDirectory)/src/web/hobbystacks-web-react-dotnet/ClientApp"
+          - task: Npm@1
+            displayName: Run Unit Tests
+            inputs:
+              command: "custom"
+              workingDir: "$(Build.SourcesDirectory)/src/web/hobbystacks-web-react-dotnet/ClientApp"
+              customCommand: "test"
+            env:
+              REACT_APP_API_CATALOG_BASEURL: $(tests-web-react-api-catalog-baseurl)
+              REACT_APP_API_HISTORY_BASEURL: $(tests-web-react-api-history-baseurl)
+              PORT: $(tests-web-react-spa-port)
+              HTTPS: $(tests-web-react-https-enabled)
+              ASPNETCORE_HTTPS_PORT: $(tests-web-react-https-api-port)
+          - task: Bash@3
+            displayName: Run Component Integration Tests
+            inputs:
+              targetType: "inline"
+              script: "echo 'RUN COMPONENT INTEGRATION TESTS!'"
+  ########################################
+  # STAGE: Build
+  ########################################
+  - stage: BuildStage
+    displayName: Build
+    jobs:
+      #
+      #--[JOB: ApiJob]
+      #
+      - job: ApiJob
+        condition: and(succeeded(), or(${{ parameters.isDebugApi }}, not(or(${{ parameters.isDebugWebSpa }}, ${{ parameters.isDebugInfrastructure }}))))
+        displayName: APIs (hobbystacks-api)
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: JFrogToolsInstaller@1
+            displayName: Install JFrog Tools
+            inputs:
+              artifactoryConnection: "hobbystacks-jfrog-artifactory"
+              cliInstallationRepo: "jfrog-cli-remote"
+          - task: Docker@2
+            displayName: Build Docker Image (DEV)
+            inputs:
+              containerRegistry: "hobbystacks-docker-registry"
+              repository: "$(build-docker-repository)/hobbystacks-api"
+              command: "build"
+              Dockerfile: "$(Build.SourcesDirectory)/src/api/hobbystacks-api-dotnet/Dockerfile"
+              buildContext: "."
+              tags: "$(docker-image-tag)-dev"
+          - task: Docker@2
+            displayName: Build Docker Image (PROD)
+            inputs:
+              containerRegistry: "hobbystacks-docker-registry"
+              repository: "$(build-docker-repository)/hobbystacks-api"
+              command: "build"
+              Dockerfile: "$(Build.SourcesDirectory)/src/api/hobbystacks-api-dotnet/Dockerfile"
+              buildContext: "."
+              tags: "$(docker-image-tag)"
+          - task: JFrogDocker@1
+            displayName: Scan Docker Image (JFrog)
+            inputs:
+              command: "Scan"
+              xrayConnection: "hobbystacks-jfrog-xray"
+              imageName: "$(docker-image-basename)-api:$(docker-image-tag)"
+              watchesSource: "none"
+              licenses: true
+              allowFailBuild: true
+              threads: "3"
+              skipLogin: false
+          - task: JFrogDocker@1
+            displayName: Push Docker Image (DEV)
+            condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+            inputs:
+              command: "Push"
+              artifactoryConnection: "hobbystacks-jfrog-artifactory"
+              imageName: "$(docker-image-basename)-api:$(docker-image-tag)-dev"
+              collectBuildInfo: true
+              buildName: "$(Build.DefinitionName)"
+              buildNumber: "$(Build.BuildNumber)"
+              threads: "3"
+              skipLogin: false
+          - task: JFrogDocker@1
+            displayName: Push Docker Image (PROD)
+            condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+            inputs:
+              command: "Push"
+              artifactoryConnection: "hobbystacks-jfrog-artifactory"
+              imageName: "$(docker-image-basename)-api:$(docker-image-tag)"
+              collectBuildInfo: true
+              buildName: "$(Build.DefinitionName)"
+              buildNumber: "$(Build.BuildNumber)"
+              threads: "3"
+              skipLogin: false
+          - task: JFrogPublishBuildInfo@1
+            displayName: JFrog Publish Build Info
+            condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+            inputs:
+              artifactoryConnection: "hobbystacks-jfrog-artifactory"
+              buildName: "$(Build.DefinitionName)"
+              buildNumber: "$(Build.BuildNumber)"
+          - task: Bash@3
+            displayName: Publish Artifacts (DbInit)
+            inputs:
+              targetType: "inline"
+              script: "echo 'PUBLISH ARTIFACTS!'"
+      #
+      #--[JOB: WebSpaJob]
+      #
+      - job: WebSpaJob
+        condition: and(succeeded(), or(${{ parameters.isDebugWebSpa }}, not(or(${{ parameters.isDebugApi }}, ${{ parameters.isDebugInfrastructure }}))))
+        displayName: Web SPA (hobbystacks-web-spa)
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: JFrogToolsInstaller@1
+            displayName: Install JFrog Tools
+            inputs:
+              artifactoryConnection: "hobbystacks-jfrog-artifactory"
+              cliInstallationRepo: "jfrog-cli-remote"
+          - task: Docker@2
+            displayName: Build Docker Image (DEV)
+            inputs:
+              containerRegistry: "hobbystacks-docker-registry"
+              repository: "$(build-docker-repository)/hobbystacks-web-spa"
+              command: "build"
+              Dockerfile: "$(Build.SourcesDirectory)/src/web/hobbystacks-web-react-dotnet/Dockerfile"
+              buildContext: "."
+              tags: "$(docker-image-tag)-dev"
+              arguments: "--build-arg REACT_APP_ENVIRONMENT=development --build-arg REACT_APP_API_CATALOG_BASEURL=$(build-react-api-catalog-baseurl) --build-arg REACT_APP_API_HISTORY_BASEURL=$(build-react-api-history-baseurl)"
+          - task: Docker@2
+            displayName: Build Docker Image (PROD)
+            inputs:
+              containerRegistry: "hobbystacks-docker-registry"
+              repository: "$(build-docker-repository)/hobbystacks-web-spa"
+              command: "build"
+              Dockerfile: "$(Build.SourcesDirectory)/src/web/hobbystacks-web-react-dotnet/Dockerfile"
+              buildContext: "."
+              tags: "$(docker-image-tag)"
+          - task: JFrogDocker@1
+            displayName: Scan Docker Image (JFrog)
+            inputs:
+              command: "Scan"
+              xrayConnection: "hobbystacks-jfrog-xray"
+              imageName: "$(docker-image-basename)-web-spa:$(docker-image-tag)"
+              watchesSource: "none"
+              licenses: true
+              allowFailBuild: true
+              threads: "3"
+              skipLogin: false
+          - task: JFrogDocker@1
+            displayName: Push Docker Image (DEV)
+            condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+            inputs:
+              command: "Push"
+              artifactoryConnection: "hobbystacks-jfrog-artifactory"
+              imageName: "$(docker-image-basename)-web-spa:$(docker-image-tag)-dev"
+              collectBuildInfo: true
+              buildName: "$(Build.DefinitionName)"
+              buildNumber: "$(Build.BuildNumber)"
+              threads: "3"
+              skipLogin: false
+          - task: JFrogDocker@1
+            displayName: Push Docker Image (PROD)
+            condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+            inputs:
+              command: "Push"
+              artifactoryConnection: "hobbystacks-jfrog-artifactory"
+              imageName: "$(docker-image-basename)-web-spa:$(docker-image-tag)"
+              collectBuildInfo: true
+              buildName: "$(Build.DefinitionName)"
+              buildNumber: "$(Build.BuildNumber)"
+              threads: "3"
+              skipLogin: false
+          - task: JFrogPublishBuildInfo@1
+            displayName: JFrog Publish Build Info
+            condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+            inputs:
+              artifactoryConnection: "hobbystacks-jfrog-artifactory"
+              buildName: "$(Build.DefinitionName)"
+              buildNumber: "$(Build.BuildNumber)"
+      #
+      #--[JOB: InfrastructureJob]
+      #
+      - job: InfrastructureJob
+        displayName: Infrastructure
+        condition: and(succeeded(), or(${{ parameters.isDebugInfrastructure }}, not(or(${{ parameters.isDebugApi }}, ${{ parameters.isDebugWebSpa }}))))
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: CopyFiles@2
+            displayName: Stage Docker-Compose
+            inputs:
+              SourceFolder: "src/docker-compose"
+              Contents: |
+                docker-compose.yml
+                docker-compose.dev.yml
+                docker-compose.prod.yml
+              TargetFolder: "$(Pipeline.Workspace)/docker-compose"
+              CleanTargetFolder: true
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Docker-Compose
+            condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+            inputs:
+              targetPath: "$(Pipeline.Workspace)/docker-compose"
+              artifact: "hobbystacks-docker-compose"
+              publishLocation: "pipeline"
+          - task: DotNetCoreCLI@2
+            displayName: Install 'dotnet ef' Tool
+            inputs:
+              command: "custom"
+              custom: "tool "
+              arguments: "install --global dotnet-ef"
+          - task: PowerShell@2
+            displayName: Stage EF Core Bundles
+            inputs:
+              targetType: "inline"
+              script: |
+                mkdir -p $(Pipeline.Workspace)/database/migrations/
+                dotnet build .
+                dotnet ef migrations bundle -o $(Pipeline.Workspace)/database/migrations/api-catalog --context TeaCatalogContext --runtime linux-x64 --verbose
+                dotnet ef migrations bundle -o $(Pipeline.Workspace)/database/migrations/api-history --context TeaHistoryContext --runtime linux-x64 --verbose
+              workingDirectory: "$(Build.SourcesDirectory)/src/api/hobbystacks-api-dotnet"
+          - task: DotNetCoreCLI@2
+            displayName: Stage 'db-init' Tool
+            inputs:
+              command: "publish"
+              arguments: "--configuration $(BuildConfiguration) --output $(Pipeline.Workspace)/database/db-init"
+              publishWebProjects: false
+              modifyOutputPath: false
+              projects: "**/hobbystacks-api-dotnet-dbinit.csproj"
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Database
+            condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+            inputs:
+              targetPath: "$(Pipeline.Workspace)/database"
+              artifact: "hobbystacks-database"
+              publishLocation: "pipeline"
+          - task: CopyFiles@2
+            displayName: Stage Terraform
+            inputs:
+              SourceFolder: "infrastructure/hobbystacks-terraform"
+              Contents: |
+                modules/**
+                *.tf
+              TargetFolder: "$(Pipeline.Workspace)/terraform"
+              CleanTargetFolder: true
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Terraform
+            condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+            inputs:
+              targetPath: "$(Pipeline.Workspace)/terraform"
+              artifact: "hobbystacks-terraform"
+              publishLocation: "pipeline"
+########################################
+# STAGE: Deploy
+########################################
+# - stage: DeployStage
+#   displayName: Deploy
+#   condition: ne('${{ variables['Build.Reason'] }}', 'PullRequest')
+#   jobs:
+#   - deployment: DeployProductionJob
+#     displayName: Production (DigitalOcean)
+#     pool:
+#       vmImage: 'ubuntu-latest'
+#     environment: 'hobbystacks-prod'
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - task: Bash@3
+#             displayName: Copy Artifacts
+#             inputs:
+#               targetType: 'inline'
+#               script: 'echo ''COPY ARTIFACTS!'''
+#           - task: Bash@3
+#             displayName: Docker-Compose Up
+#             inputs:
+#               targetType: 'inline'
+#               script: 'echo ''DOCKER-COMPOSE UP!'''
+#           - task: Bash@3
+#             displayName: Deploy Schemas
+#             inputs:
+#               targetType: 'inline'
+#               script: 'echo ''DEPLOY SCHEMAS!'''
+#           - task: Bash@3
+#             displayName: Seed Referential Data
+#             inputs:
+#               targetType: 'inline'
+#               script: 'echo ''SEED REFERENTIAL DATA!'''
+#           - task: Bash@3
+#             displayName: Run Health Checks
+#             inputs:
+#               targetType: 'inline'
+#               script: 'echo ''RUN HEALTH CHECKS!'''
+#           - task: Bash@3
+#             displayName: Run Sanity Checks (Critical Paths)
+#             inputs:
+#               targetType: 'inline'
+#               script: 'echo ''RUN SANITY CHECKS!'''

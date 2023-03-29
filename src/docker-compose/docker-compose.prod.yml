@@ -1,0 +1,42 @@
+version: '3.4'
+
+services:
+  web:
+    expose:
+      - "80"
+      - "443"
+    networks:
+      - nginx-proxy
+    environment:
+      #- ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://+:80
+      - VIRTUAL_HOST=hobbystacks.com
+      - VIRTUAL_PORT=80
+      - VIRTUAL_PATH=/
+      - LETSENCRYPT_HOST=hobbystacks.com
+      #- LETSENCRYPT_TEST=true
+
+  api:
+    expose:
+      - "80"
+      - "443"
+    networks:
+      - nginx-proxy
+    environment:
+      #- ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://+:80
+      - VIRTUAL_HOST=hobbystacks.com
+      - VIRTUAL_PORT=80
+      - VIRTUAL_PATH=/api
+      - LETSENCRYPT_HOST=hobbystacks.com
+      #- LETSENCRYPT_TEST=true
+
+  db:
+    ports:
+      - 5432:5432
+    networks:
+      - nginx-proxy
+
+networks:
+  nginx-proxy:
+    external: true

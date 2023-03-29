@@ -1,0 +1,95 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{94E9F08C-0392-46E1-B520-2E3A4A976644}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{61F64B0F-246A-4860-9DE8-72868B924F19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{F682C13E-56A9-4AB4-BBDF-471F9777E2B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "- Solution Items", "- Solution Items", "{C3DD5933-5C62-4419-9CEA-43725AB285F8}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitattributes = ..\.gitattributes
+		..\.gitignore = ..\.gitignore
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{68992DA8-4044-4622-8242-7365FED59AE7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hobbystacks-terraform", "..\infrastructure\hobbystacks-terraform\hobbystacks-terraform.csproj", "{C87979C5-1984-4AFC-AC58-E1C8AE6ACDAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hobbystacks-web-react-dotnet", "web\hobbystacks-web-react-dotnet\hobbystacks-web-react-dotnet.csproj", "{5D976489-C840-44BE-832E-6796042AA368}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose\docker-compose.dcproj", "{AFB61D10-DB1F-4F4A-9EFA-52737FCF1B0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hobbystacks-api-dotnet", "api\hobbystacks-api-dotnet\hobbystacks-api-dotnet.csproj", "{5BF8A733-D3BF-4C84-9319-68F8C9537455}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hobbystacks-api-dotnet-unit-tests", "api\hobbystacks-api-dotnet-unit-tests\hobbystacks-api-dotnet-unit-tests.csproj", "{8D6C6301-B243-4C89-9854-206AA3F95A71}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hobbystacks-api-dotnet-integration-tests", "api\hobbystacks-api-dotnet-integration-tests\hobbystacks-api-dotnet-integration-tests.csproj", "{C16EEAA4-F7C0-4336-B736-97E83961768C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hobbystacks-api-dotnet-dbinit", "api\hobbystacks-api-dotnet-dbinit\hobbystacks-api-dotnet-dbinit.csproj", "{F18EA33D-8CD1-4A6F-907B-FD7B53575E87}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{49F1499C-8472-47DD-AD32-0930DB8AC08D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "monolith", "monolith", "{896F26D4-FC6F-4295-B6C6-1037ABE1D990}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\monolith\azure-pipelines.yml = ..\build\monolith\azure-pipelines.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C87979C5-1984-4AFC-AC58-E1C8AE6ACDAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C87979C5-1984-4AFC-AC58-E1C8AE6ACDAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C87979C5-1984-4AFC-AC58-E1C8AE6ACDAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C87979C5-1984-4AFC-AC58-E1C8AE6ACDAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D976489-C840-44BE-832E-6796042AA368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D976489-C840-44BE-832E-6796042AA368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D976489-C840-44BE-832E-6796042AA368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D976489-C840-44BE-832E-6796042AA368}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFB61D10-DB1F-4F4A-9EFA-52737FCF1B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFB61D10-DB1F-4F4A-9EFA-52737FCF1B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFB61D10-DB1F-4F4A-9EFA-52737FCF1B0A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFB61D10-DB1F-4F4A-9EFA-52737FCF1B0A}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{5BF8A733-D3BF-4C84-9319-68F8C9537455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BF8A733-D3BF-4C84-9319-68F8C9537455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BF8A733-D3BF-4C84-9319-68F8C9537455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BF8A733-D3BF-4C84-9319-68F8C9537455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D6C6301-B243-4C89-9854-206AA3F95A71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D6C6301-B243-4C89-9854-206AA3F95A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D6C6301-B243-4C89-9854-206AA3F95A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D6C6301-B243-4C89-9854-206AA3F95A71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C16EEAA4-F7C0-4336-B736-97E83961768C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C16EEAA4-F7C0-4336-B736-97E83961768C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C16EEAA4-F7C0-4336-B736-97E83961768C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C16EEAA4-F7C0-4336-B736-97E83961768C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F18EA33D-8CD1-4A6F-907B-FD7B53575E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F18EA33D-8CD1-4A6F-907B-FD7B53575E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F18EA33D-8CD1-4A6F-907B-FD7B53575E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F18EA33D-8CD1-4A6F-907B-FD7B53575E87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{61F64B0F-246A-4860-9DE8-72868B924F19} = {94E9F08C-0392-46E1-B520-2E3A4A976644}
+		{F682C13E-56A9-4AB4-BBDF-471F9777E2B5} = {94E9F08C-0392-46E1-B520-2E3A4A976644}
+		{C87979C5-1984-4AFC-AC58-E1C8AE6ACDAC} = {68992DA8-4044-4622-8242-7365FED59AE7}
+		{5D976489-C840-44BE-832E-6796042AA368} = {61F64B0F-246A-4860-9DE8-72868B924F19}
+		{AFB61D10-DB1F-4F4A-9EFA-52737FCF1B0A} = {94E9F08C-0392-46E1-B520-2E3A4A976644}
+		{5BF8A733-D3BF-4C84-9319-68F8C9537455} = {F682C13E-56A9-4AB4-BBDF-471F9777E2B5}
+		{8D6C6301-B243-4C89-9854-206AA3F95A71} = {F682C13E-56A9-4AB4-BBDF-471F9777E2B5}
+		{C16EEAA4-F7C0-4336-B736-97E83961768C} = {F682C13E-56A9-4AB4-BBDF-471F9777E2B5}
+		{F18EA33D-8CD1-4A6F-907B-FD7B53575E87} = {F682C13E-56A9-4AB4-BBDF-471F9777E2B5}
+		{896F26D4-FC6F-4295-B6C6-1037ABE1D990} = {49F1499C-8472-47DD-AD32-0930DB8AC08D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9EF22B06-024C-42CB-86D1-F5D92DC9D0E5}
+	EndGlobalSection
+EndGlobal

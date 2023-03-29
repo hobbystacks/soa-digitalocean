@@ -1,0 +1,112 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+	  <SpaProxyServerUrl>https://localhost:9002</SpaProxyServerUrl>
+	<!-- <SpaProxyServerUrl>https://192.168.20.1:9002</SpaProxyServerUrl> -->
+    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+    <RootNamespace>HobbyStacks.Web</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>4ab73bc6-791a-4503-bb52-83f7b85bba14</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\build\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\build\**" />
+    <EmbeddedResource Remove="ClientApp\build\**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\build\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\build\asset-manifest.json" />
+    <None Remove="ClientApp\build\favicon.ico" />
+    <None Remove="ClientApp\build\index.html" />
+    <None Remove="ClientApp\build\manifest.json" />
+    <None Remove="ClientApp\build\service-worker.js" />
+    <None Remove="ClientApp\build\service-worker.js.LICENSE.txt" />
+    <None Remove="ClientApp\build\service-worker.js.map" />
+    <None Remove="ClientApp\build\static\css\main.ec2afee5.css" />
+    <None Remove="ClientApp\build\static\css\main.ec2afee5.css.map" />
+    <None Remove="ClientApp\build\static\js\496.4485fc13.chunk.js" />
+    <None Remove="ClientApp\build\static\js\496.4485fc13.chunk.js.map" />
+    <None Remove="ClientApp\build\static\js\main.edf11250.js" />
+    <None Remove="ClientApp\build\static\js\main.edf11250.js.LICENSE.txt" />
+    <None Remove="ClientApp\build\static\js\main.edf11250.js.map" />
+    <None Remove="ClientApp\build\static\media\roboto-all-300-normal.168d6383e73339293ac3.woff" />
+    <None Remove="ClientApp\build\static\media\roboto-all-400-normal.c5d001fa922fa66a147f.woff" />
+    <None Remove="ClientApp\build\static\media\roboto-all-500-normal.0ab669b7a0d19b178f57.woff" />
+    <None Remove="ClientApp\build\static\media\roboto-all-700-normal.a457fde362a540fcadff.woff" />
+    <None Remove="ClientApp\build\static\media\roboto-cyrillic-300-normal.1431d1cef06ad04f5458.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-cyrillic-400-normal.71a33b6b50457b2c903a.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-cyrillic-500-normal.cad7d3d9cb265e334e58.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-cyrillic-700-normal.d010f1f324e111a22e53.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-cyrillic-ext-300-normal.4777461b144e55145268.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-cyrillic-ext-400-normal.804378952da8a10faae2.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-cyrillic-ext-500-normal.62ced72e5832f02c2796.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-cyrillic-ext-700-normal.be4d02458ce53887dc37.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-greek-300-normal.db2632771401f61463fe.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-greek-400-normal.c35e4c3958e209d17b31.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-greek-500-normal.9ac81fefbe6c319ea40b.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-greek-700-normal.50e795c1345353b0e996.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-greek-ext-300-normal.35b9d6be04b95f0f0530.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-greek-ext-400-normal.169619821ea93019d1bb.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-greek-ext-500-normal.6fb9cffb1d3e72bf9293.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-latin-300-normal.c48fb6765a9fcb00b330.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-latin-400-normal.b009a76ad6afe4ebd301.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-latin-700-normal.227c93190fe7f82de3f8.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-latin-ext-300-normal.dc7dcec8e3f654e0ed63.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-latin-ext-400-normal.861b791f9de857a6e7bc.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-latin-ext-500-normal.9165081d10e1ba601384.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-latin-ext-700-normal.ed67ad54b1a8f5d21150.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-vietnamese-300-normal.32fc45a3d1e8ea11fabc.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-vietnamese-400-normal.3230f9b040f3c630e0c3.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-vietnamese-500-normal.d8642a3d1d4ef6179644.woff2" />
+    <None Remove="ClientApp\build\static\media\roboto-vietnamese-700-normal.3425a701027d0699e369.woff2" />
+  </ItemGroup>
+
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)build\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+</Project>

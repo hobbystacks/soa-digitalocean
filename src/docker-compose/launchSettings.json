@@ -1,0 +1,47 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "hobbystacks-web-react-dotnet",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "serviceActions": {
+        "api": "StartDebugging",
+        "db": "StartWithoutDebugging",
+        "web": "StartDebugging",
+        "adminer": "StartWithoutDebugging"
+      }
+    },
+    "Database Services": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "api": "DoNotStart",
+        "db": "StartWithoutDebugging",
+        "web": "DoNotStart",
+        "adminer": "StartWithoutDebugging"
+      }
+    },
+    "App Services": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "api": "StartDebugging",
+        "db": "DoNotStart",
+        "web": "StartDebugging",
+        "adminer": "DoNotStart"
+      }
+    },
+    "App Services (No Debug)": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "adminer": "StartWithoutDebugging",
+        "api": "StartWithoutDebugging",
+        "db": "StartWithoutDebugging",
+        "web": "StartWithoutDebugging"
+      }
+    }
+  }
+}

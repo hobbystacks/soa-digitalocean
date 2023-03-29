@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>HobbyStacks.Api.DbInit</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>HobbyStacks.Api.DbInit</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="secrets.json" />
+    <None Remove="secrets.sample.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DbUp-PostgreSQL" Version="5.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="secrets.json">
+	  <CopyToOutputDirectory Condition="Exists('secrets.json')">PreserveNewest</CopyToOutputDirectory>
+	</None>
+	<None Include="secrets.sample.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Scripts\Seed\" />
+  </ItemGroup>
+
+</Project>

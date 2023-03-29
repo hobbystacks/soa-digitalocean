@@ -1,0 +1,56 @@
+version: '3.4'
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: web/hobbystacks-web-react-dotnet/Dockerfile
+    ports:
+      - 9000:80
+      - 9001:443
+    networks:
+      - hobbystacks-net
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=Microsoft.AspNetCore.SpaProxy
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  api:
+    build:
+      context: ..
+      dockerfile: api/hobbystacks-api-dotnet/Dockerfile
+    ports:
+      - 9010:80
+      - 9011:443
+    networks:
+      - hobbystacks-net
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  db:
+    ports:
+      - 5432:5432
+    networks:
+      - hobbystacks-net
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - hobbystacks-net
+    environment:
+      - ADMINER_DEFAULT_SERVER=${DB_HOST}
+    depends_on:
+      - db
+
+networks:
+  hobbystacks-net:
