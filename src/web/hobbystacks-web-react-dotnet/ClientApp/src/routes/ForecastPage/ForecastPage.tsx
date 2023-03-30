@@ -38,6 +38,7 @@ const ForecastPage = (props: ForecastPageProps) => {
 
   // Set HTML5 document's title. (Breaks definition of pure components...)
   document.title = `HobbyStacks - ${title}`;
+
   const renderAlerts = () => (
     <Stack role="status" aria-label="errors" spacing={2}>
       {alerts.map((alert, idx) => (

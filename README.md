@@ -1,8 +1,8 @@
-# Hobby Stacks - Baseline (DigitalOcean)
+# Hobby Stacks - Service-Oriented Architecture (SOA) on DigitalOcean
 
 [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/PhiltasticGuy/hobbystacks)
 
-This is Hobby Stacks' baseline project for provisioning the Infrastructure as Code using Terraform on DigitalOcean.
+This project offers several examples of `single page applications (SPA)` communicating with APIs in a `service-oriented architecture (SOA)`. The resources are provisioned on DigitalOcean with `infrastructure as code (IaC)` using Terraform.
 
 ## Why create *Hobby Stacks*?
 
@@ -31,7 +31,12 @@ We decided to gear this tech stack towards **commercial projects** which meant o
 
 1. Prerequisites
     - [DigitalOcean](#digitalocean)
-2. Provisioning
+    - [JFrog](#jfrog)
+2. Configuration Files
+    - [Configure local development environment](#configure-local-development-environment)
+3. Run Locally
+    - [Launch All Services with Docker Compose](#launch-all-services-with-docker-compose)
+4. Provisioning
     - [Provision Infrastructure with Terraform](#provision-infrastructure-with-terraform)
 
 ### Prerequisites
@@ -46,6 +51,82 @@ In order to provision the infrastructure on DigitalOcean you will need:
   - If you don't have one, [create an API Token for your DigitalOcean account](https://docs.digitalocean.com/reference/api/create-personal-access-token/).
 - **SSH Key uploaded to your account**:
   - If you don't have one, [upload an SSH Key to your DigitalOcean account](https://docs.digitalocean.com/products/droplets/how-to/add-ssh-keys/to-team/).
+
+#### JFrog
+
+In order to store Docker images and Terraform remote states you will need:
+
+- **JFrog Account**:
+  - If you don't have one, [create your free JFrog account](https://www.digitalocean.com/products/droplets/).
+- **API Token created for your account**:
+  - If you don't have one, [create an API Token for your JFrog account](https://docs.digitalocean.com/reference/api/create-personal-access-token/).
+
+### Configuration Files
+
+#### Configure local development environment
+
+##### React
+
+In order to run the `React` samples locally you will need:
+
+- **.env**:
+  - Location : `/src/web/hobbystacks-web-react-dotnet/ClientApp/.env`.
+- **.env.development**:
+  - Location : `/src/web/hobbystacks-web-react-dotnet/ClientApp/.env.development`.
+
+##### ASP.NET Core Web API
+
+In order to run the `API` samples locally you will need:
+
+- **secrets.json**:
+  - Location : `/src/api/hobbystacks-api-dotnet/secrets.json`.
+
+##### ASP.NET Core Web API - 'db-init' Utility
+
+In order to seed the `API` database locally you will need:
+
+- **secrets.json**:
+  - Location : `/src/api/hobbystacks-api-dotnet-db-init/secrets.json`.
+
+##### Docker Compose - All Services
+
+In order to run `docker-compose` locally you will need:
+
+- **.env**:
+  - Location : `/src/docker-compose/.env`.
+
+### Run Locally
+
+#### Run .NET Test Suites
+
+In order to run the `API` integration tests locally you will need to create/configure the following files:
+
+- **secrets.json**:
+  - Location : `/src/api/hobbystacks-api-dotnet-integration-tests/secrets.json`.
+
+```json
+{
+  "DB_DRIVER": "pgsql",
+  "DB_HOST": "localhost",
+  "DB_PORT": "5432",
+  "DB_NAME": "hobbystacks",
+  "DB_USER": "placeholder",
+  "DB_PASSWORD": "SuperDuperPassword1"
+}
+```
+
+#### Run React Test Suites
+
+In order to run the `React` tests locally you will need to create/configure the following files:
+
+- **.env.test**:
+  - Location : `/src/web/hobbystacks-web-react-dotnet/ClientApp/.env.test`.
+
+```bash
+REACT_APP_API_WEATHER_BASEURL=https://localhost:9011
+```
+
+#### Launch All Services with Docker Compose
 
 <!-- ### Azure DevOps
 

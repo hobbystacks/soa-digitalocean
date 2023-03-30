@@ -1,3 +1,4 @@
+import { Table, TableBody } from "@mui/material";
 import { render, screen } from "@testing-library/react";
 import Forecast from "objects/Forecasts/Forecast";
 import ForecastItem from "./ForecastItem";
@@ -11,7 +12,13 @@ describe("ForecastItem", () => {
       summary: "Perfect",
     };
 
-    render(<ForecastItem forecast={forecast} />);
+    render(
+      <Table>
+        <TableBody>
+          <ForecastItem forecast={forecast} />
+        </TableBody>
+      </Table>
+    );
 
     expect(screen.getAllByRole("cell")).toHaveLength(4);
 
