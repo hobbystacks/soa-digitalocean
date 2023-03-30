@@ -123,7 +123,7 @@ In order to run the `React` tests locally you will need to create/configure the 
   - Location : `/src/web/hobbystacks-web-react-dotnet/ClientApp/.env.test`.
 
 ```bash
-REACT_APP_API_WEATHER_BASEURL=https://localhost:9011
+REACT_APP_API_WEATHER_BASEURL=https://valid.url.format
 ```
 
 #### Launch All Services with Docker Compose
