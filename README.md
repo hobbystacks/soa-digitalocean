@@ -126,6 +126,13 @@ In order to run the `React` tests locally you will need to create/configure the 
 REACT_APP_API_WEATHER_BASEURL=https://valid.url.format
 ```
 
+Once you have created the necessary configuration files, you can simply run the following commands from the project's root directory:
+
+```bash
+cd ./src/web/hobbystacks-web-react-dotnet/ClientApp
+npm test
+```
+
 #### Launch All Services with Docker Compose
 
 <!-- ### Azure DevOps
