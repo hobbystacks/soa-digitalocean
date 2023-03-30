@@ -109,9 +109,9 @@ Once you have created the necessary configuration files, you can simply run the 
 ```bash
 cd src/docker-compose
 
-docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d db &&
-dotnet test HobbyStacks.sln &&
-docker-compose -f docker-compose.yml -f docker-compose.override.yml down
+docker compose -f docker-compose.yml -f docker-compose.override.yml up -d db &&
+dotnet test ../HobbyStacks.sln &&
+docker compose -f docker-compose.yml -f docker-compose.override.yml down
 ```
 
 Alternatively, you can open the `Test Explorer` window in `Visual Studio` to run the test suites after launching the `Database Services`.
@@ -157,10 +157,10 @@ Once you have created the necessary configuration files, you can simply run the 
 cd src/docker-compose
 
 # Start the services
-docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.override.yml up -d
 
 # Stop the services
-docker-compose -f docker-compose.yml -f docker-compose.override.yml down
+docker compose -f docker-compose.yml -f docker-compose.override.yml down
 ```
 
 <!-- ### Azure DevOps
