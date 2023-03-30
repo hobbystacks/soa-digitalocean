@@ -6,15 +6,15 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 RUN apt-get update \
-	&& apt-get install -y curl \
-	&& apt-get install -y libpng-dev libjpeg-dev curl libxi6 build-essential libgl1-mesa-glx \
-	&& curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
-	&& apt-get install -y nodejs
+    && apt-get install -y curl \
+    && apt-get install -y libpng-dev libjpeg-dev curl libxi6 build-essential libgl1-mesa-glx \
+    && curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs
 WORKDIR /src
-COPY ["src/web/hobbystacks-web-react-dotnet/hobbystacks-web-react-dotnet.csproj", "src/web/hobbystacks-web-react-dotnet/"]
-RUN dotnet restore "src/web/hobbystacks-web-react-dotnet/hobbystacks-web-react-dotnet.csproj"
+COPY ["web/hobbystacks-web-react-dotnet/hobbystacks-web-react-dotnet.csproj", "web/hobbystacks-web-react-dotnet/"]
+RUN dotnet restore "web/hobbystacks-web-react-dotnet/hobbystacks-web-react-dotnet.csproj"
 COPY . .
-WORKDIR "/src/src/web/hobbystacks-web-react-dotnet"
+WORKDIR "/src/web/hobbystacks-web-react-dotnet"
 RUN dotnet build "hobbystacks-web-react-dotnet.csproj" -c Release -o /app/build
 
 FROM build AS publish

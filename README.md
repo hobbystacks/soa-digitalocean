@@ -30,16 +30,27 @@ We decided to gear this tech stack towards **commercial projects** which meant o
 ## Getting Started
 
 1. Prerequisites
+    - [Software](#software)
     - [DigitalOcean](#digitalocean)
     - [JFrog](#jfrog)
-2. Configuration Files
-    - [Configure local development environment](#configure-local-development-environment)
-3. Run Locally
+2. Run Locally
+    - [Run .NET Test Suites](#run-net-test-suites)
+    - [Run React Test Suites](#run-react-test-suites)
     - [Launch All Services with Docker Compose](#launch-all-services-with-docker-compose)
-4. Provisioning
+3. Provisioning
     - [Provision Infrastructure with Terraform](#provision-infrastructure-with-terraform)
 
 ### Prerequisites
+
+### Software
+
+1. Docker Engine
+2. Docker Compose
+3. .NET SDK
+4. `dotnet-ef` Tool
+5. Terraform
+6. Visual Studio Community
+7. Visual Studio Code
 
 #### DigitalOcean
 
@@ -61,40 +72,6 @@ In order to store Docker images and Terraform remote states you will need:
 - **API Token created for your account**:
   - If you don't have one, [create an API Token for your JFrog account](https://docs.digitalocean.com/reference/api/create-personal-access-token/).
 
-### Configuration Files
-
-#### Configure local development environment
-
-##### React
-
-In order to run the `React` samples locally you will need:
-
-- **.env**:
-  - Location : `/src/web/hobbystacks-web-react-dotnet/ClientApp/.env`.
-- **.env.development**:
-  - Location : `/src/web/hobbystacks-web-react-dotnet/ClientApp/.env.development`.
-
-##### ASP.NET Core Web API
-
-In order to run the `API` samples locally you will need:
-
-- **secrets.json**:
-  - Location : `/src/api/hobbystacks-api-dotnet/secrets.json`.
-
-##### ASP.NET Core Web API - 'db-init' Utility
-
-In order to seed the `API` database locally you will need:
-
-- **secrets.json**:
-  - Location : `/src/api/hobbystacks-api-dotnet-db-init/secrets.json`.
-
-##### Docker Compose - All Services
-
-In order to run `docker-compose` locally you will need:
-
-- **.env**:
-  - Location : `/src/docker-compose/.env`.
-
 ### Run Locally
 
 #### Run .NET Test Suites
@@ -102,7 +79,7 @@ In order to run `docker-compose` locally you will need:
 In order to run the `API` integration tests locally you will need to create/configure the following files:
 
 - **secrets.json**:
-  - Location : `/src/api/hobbystacks-api-dotnet-integration-tests/secrets.json`.
+  - Location : `src/api/hobbystacks-api-dotnet-integration-tests/secrets.json`.
 
 ```json
 {
@@ -115,12 +92,36 @@ In order to run the `API` integration tests locally you will need to create/conf
 }
 ```
 
+- **.env**:
+  - Location : `src/docker-compose/.env`.
+
+```bash
+DB_DRIVER=pgsql
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=hobbystacks
+DB_USER=placeholder
+DB_PASSWORD=SuperDuperPassword1
+```
+
+Once you have created the necessary configuration files, you can simply run the following commands from the project's root directory:
+
+```bash
+cd src/docker-compose
+
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d db &&
+dotnet test HobbyStacks.sln &&
+docker-compose -f docker-compose.yml -f docker-compose.override.yml down
+```
+
+Alternatively, you can open the `Test Explorer` window in `Visual Studio` to run the test suites after launching the `Database Services`.
+
 #### Run React Test Suites
 
 In order to run the `React` tests locally you will need to create/configure the following files:
 
 - **.env.test**:
-  - Location : `/src/web/hobbystacks-web-react-dotnet/ClientApp/.env.test`.
+  - Location : `src/web/hobbystacks-web-react-dotnet/ClientApp/.env.test`.
 
 ```bash
 REACT_APP_API_WEATHER_BASEURL=https://valid.url.format
@@ -129,11 +130,38 @@ REACT_APP_API_WEATHER_BASEURL=https://valid.url.format
 Once you have created the necessary configuration files, you can simply run the following commands from the project's root directory:
 
 ```bash
-cd ./src/web/hobbystacks-web-react-dotnet/ClientApp
+cd src/web/hobbystacks-web-react-dotnet/ClientApp
+
 npm test
 ```
 
 #### Launch All Services with Docker Compose
+
+In order to run the `Docker Compose` services you will need to create/configure the following files:
+
+- **.env**:
+  - Location : `src/docker-compose/.env`.
+
+```bash
+DB_DRIVER=pgsql
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=hobbystacks
+DB_USER=placeholder
+DB_PASSWORD=SuperDuperPassword1
+```
+
+Once you have created the necessary configuration files, you can simply run the following commands from the project's root directory:
+
+```bash
+cd src/docker-compose
+
+# Start the services
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+
+# Stop the services
+docker-compose -f docker-compose.yml -f docker-compose.override.yml down
+```
 
 <!-- ### Azure DevOps
 

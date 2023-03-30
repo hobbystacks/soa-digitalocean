@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["src/api/hobbystacks-api-dotnet/hobbystacks-api-dotnet.csproj", "src/api/hobbystacks-api-dotnet/"]
-RUN dotnet restore "src/api/hobbystacks-api-dotnet/hobbystacks-api-dotnet.csproj"
+COPY ["api/hobbystacks-api-dotnet/hobbystacks-api-dotnet.csproj", "api/hobbystacks-api-dotnet/"]
+RUN dotnet restore "api/hobbystacks-api-dotnet/hobbystacks-api-dotnet.csproj"
 COPY . .
-WORKDIR "/src/src/api/hobbystacks-api-dotnet"
+WORKDIR "/src/api/hobbystacks-api-dotnet"
 RUN dotnet build "hobbystacks-api-dotnet.csproj" -c Release -o /app/build
 
 FROM build AS publish
