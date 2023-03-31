@@ -44,15 +44,15 @@ This sample builds on the well-known weather forecast scenario from the `ASP.NET
 
 | Categories      | Features                     | Tools/Technologies     | Cost       |
 |-----------------|------------------------------|------------------------|------------|
+| Cloud Native    | Containers                   | Docker                 | Free       |
+|                 | Orchestration                | Docker Compose         | Free       |
+|                 | Infrastructure as Code (IaC) | Terraform              | Free       |
+| DevOps          | CI/CD Pipelines              | [Azure Pipelines](https://azure.microsoft.com/en-ca/services/devops/pipelines/) | Free       |
+|                 |                              | GitHub Actions                                                                  | Free       |
 | Web             | Hosting                      | [DigitalOcean - Droplets](https://www.digitalocean.com/pricing/#Compute)                   | **4$ USD** |
 |                 | Reverse Proxies              | [nginx-proxy/nginx-proxy](https://github.com/nginx-proxy/nginx-proxy)                       | Free       |
 |                 | SSL Certificates             | [Let's Encrypt](https://letsencrypt.org/about/)                                 | Free       |
 |                 |                              | [nginx-proxy/acme-companion](https://github.com/nginx-proxy/acme-companion)                 | Free       |
-| Cloud Native    | Containers                   | Docker                 | Free       |
-|                 | Orchestration                | Docker Compose         | Free       |
-|                 | Infrastructure as Code (IaC) | Terraform              | Free       |
-|                 | CI/CD Pipelines              | [Azure Pipelines](https://azure.microsoft.com/en-ca/services/devops/pipelines/) | Free       |
-|                 |                              | GitHub Actions                                                                  | Free       |
 | Frontends       | SPA (React)                  | React                  | Free       |
 |                 |                              | TypeScript             | Free       |
 | Backends (APIs) | REST API (.NET 7)            | .NET 7                 | Free       |
