@@ -37,7 +37,7 @@ The current running cost for the stack is `4$ USD`.
 <!-- omit in toc -->
 ## Table of Contents
 
-- [Sample : Weather Forecasts](#sample--weather-forecasts)
+- [Weather Forecasts Application](#weather-forecasts-application)
   - [Technologies](#technologies)
   - [Architecture](#architecture)
   - [CI/CD Pipeline](#cicd-pipeline)
@@ -55,9 +55,9 @@ The current running cost for the stack is `4$ USD`.
 - [Authors](#authors)
 - [License](#license)
 
-## Sample : Weather Forecasts
+## Weather Forecasts Application
 
-This sample build upon the usual weather forecast SPA and API from the `ASP.NET Core` project templates.
+This sample builds on the well-known weather forecast scenario from the `ASP.NET Core` project templates. We have modified the generated single-page application (SPA) and REST API in order to showcase other technologies and advanced scenarios.
 
 ### Technologies
 
