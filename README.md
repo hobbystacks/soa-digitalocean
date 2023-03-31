@@ -17,30 +17,11 @@ The current running cost for the stack is `4$ USD`.
 
 ***DISCLAIMER:** It is your responsibility to review, assess and address any security, performance or other concerns related to your specific context before moving this stack into production.*
 
-<!-- | Features                         | Tools                                  | Costs |
-| -------------------------------- | -------------------------------------- | ----- |
-| Hosting                          | [DigitalOcean](https://www.digitalocean.com/pricing/#Compute) | **4$**    |
-| Container Registry (**Private**) | [JFrog](#) | Free |
-| Repositories (**Private**)       | [Azure DevOps](https://azure.microsoft.com/en-ca/services/devops/git-repos/), GitHub, GitLab | *Free*  |
-| CI/CD Pipelines                  | [Azure Pipelines](https://azure.microsoft.com/en-ca/services/devops/pipelines/), GitHub Actions, GitLab CI/CD | *Free*  |
-| Reverse Proxy       | Nginx, Traefik                                  | *Free*  |
-| Web Performance & Security       | [Cloudflare](https://www.cloudflare.com/plans/#compare-features) | *Free*  |
-| SSL Certificates                 | [Let's Encrypt](https://letsencrypt.org/about/) + [Certbot](https://certbot.eff.org/about/) or [acme.sh](https://github.com/acmesh-official/acme.sh) | *Free*  |
-| Multi-Container Tool             | Docker Compose                         | *Free*  |
-| IDE                              | [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/), [Visual Studio Code](https://code.visualstudio.com/) | *Free*  |
-| Front-end + UI                   |                                        | *N/A*  |
-| APIs                             |                                        | *N/A*  |
-| Database                         |                                        | *N/A*  |
-
-*\* GitLab Container Registry is only available for projects hosted on GitLab.* -->
-
 <!-- omit in toc -->
 ## Table of Contents
 
 - [Weather Forecasts Application](#weather-forecasts-application)
   - [Technologies](#technologies)
-  - [Architecture](#architecture)
-  - [CI/CD Pipeline](#cicd-pipeline)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
     - [Software](#software)
@@ -61,43 +42,43 @@ This sample builds on the well-known weather forecast scenario from the `ASP.NET
 
 ### Technologies
 
-- Containers
-  - Docker
-  - Docker Compose
-- Web
-  - Hosting
-    - DigitalOcean
-  - Reverse Proxies
-    - [nginx-proxy/nginx-proxy](https://github.com/nginx-proxy/nginx-proxy)
-  - SSL Certificates
-    - [nginx-proxy/acme-companion](https://github.com/nginx-proxy/acme-companion)
-- Infrastructure as Code (IaC)
-  - Terraform with Remote Backend/State
-- Frontends
-  - React
-    - TypeScript
-- Backends (APIs)
-  - .NET 7
-    - ASP.NET Core - Web API
-    - C#
-- Databases
-  - PostgreSQL
-- Repositories
-  - Code Repositories
-    - Azure DevOps
-    - GitHub
-  - Docker Registry
-    - JFrog
-  - Terraform Remote Backend
-    - JFrog
+| Categories      | Features                     | Tools/Technologies     | Cost       |
+|-----------------|------------------------------|------------------------|------------|
+| Web             | Hosting                      | [DigitalOcean - Droplets](https://www.digitalocean.com/pricing/#Compute)                   | **4$ USD** |
+|                 | Reverse Proxies              | [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy)                       | Free       |
+|                 | SSL Certificates             | [Let's Encrypt](https://letsencrypt.org/about/)                                 | Free       |
+|                 |                              | [acme-companion](https://github.com/nginx-proxy/acme-companion)                 | Free       |
+|                 |                              | [Certbot](https://certbot.eff.org/about/)                                       | Free       |
+| Cloud Native    | Containers                   | Docker                 | Free       |
+|                 | Orchestration                | Docker Compose         | Free       |
+|                 | Infrastructure as Code (IaC) | Terraform              | Free       |
+|                 | CI/CD Pipelines              | [Azure Pipelines](https://azure.microsoft.com/en-ca/services/devops/pipelines/) | Free       |
+|                 |                              | GitHub Actions                                                                  | Free       |
+|                 |                              | GitLab CI/CD                                                                    | Free       |
+| Frontends       | SPA (React)                  | React                  | Free       |
+|                 |                              | TypeScript             | Free       |
+| Backends (APIs) | REST API (.NET 7)            | .NET 7                 | Free       |
+|                 |                              | ASP.NET Core - Web API | Free       |
+|                 |                              | C#                     | Free       |
+| Databases       | Relational                   | PostgreSQL             | Free       |
+|                 | Caching                      | Redis                  | Free       |
+|                 | Events                       | RabbitMQ               | Free       |
+| Repositories    | Code Repositories            | [Azure DevOps](https://azure.microsoft.com/en-ca/services/devops/git-repos/)    | Free       |
+|                 |                              | GitHub                 | Free       |
+|                 | Docker Registry              | JFrog                  | Free       |
+|                 | Terraform Remote Backend     | JFrog                  | Free       |
+| Development     | IDEs                         | [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)     | ***Free***\*       |
+|                 |                              | [Visual Studio Code](https://code.visualstudio.com/)                            | Free       |
 
-### Architecture
+*\* `Visual Studio Community` is free for some commercial projects under specific conditions. Please consult [Microsoft's EULA](https://visualstudio.microsoft.com/license-terms/) to confirm whether you meet these conditions.*
 
-N/A
-
-### CI/CD Pipeline
+<!-- ### Architecture Overview
 
 N/A
+
+### CI/CD Pipelines
+
+N/A -->
 
 ## Getting Started
 
