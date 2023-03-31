@@ -9,11 +9,13 @@ This project offers several examples of `single page applications (SPA)` communi
 <!-- omit in toc -->
 ## Why create *Hobby Stacks*?
 
-Our goal is to define a technology stack with **minimal costs** to host MVPs and prototypes for hobby projects. We also want to offer real-world examples that go beyond basic tutorials that showcase technologies or features in overly simplified scenarios. The current running cost for the stack is 4$ USD.
+Our goal is to define a technology stack with **minimal costs** to host MVPs and prototypes for hobby projects. We also want to offer real-world examples that go beyond basic tutorials that showcase technologies or features in overly simplified scenarios.
 
-We decided to gear this tech stack towards **commercial projects** which meant opting for a private container registry and code repository.
+We decided to gear this tech stack towards commercial projects which meant opting for a private container registry and code repository.
 
-***REMINDER:** You should consider and address any security and performance concerns related to your specific context before blindly moving this stack into production.*
+The current running cost for the stack is `4$ USD`.
+
+***DISCLAIMER:** It is your responsibility to review, assess and address any security, performance or other concerns related to your specific context before moving this stack into production.*
 
 <!-- | Features                         | Tools                                  | Costs |
 | -------------------------------- | -------------------------------------- | ----- |
