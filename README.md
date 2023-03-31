@@ -1,16 +1,21 @@
+
+<!-- omit in toc -->
 # Hobby Stacks - Service-Oriented Architecture (SOA) on DigitalOcean
 
 [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/PhiltasticGuy/hobbystacks)
 
 This project offers several examples of `single page applications (SPA)` communicating with APIs in a `service-oriented architecture (SOA)`. The resources are provisioned on DigitalOcean with `infrastructure as code (IaC)` using Terraform.
 
+<!-- omit in toc -->
 ## Why create *Hobby Stacks*?
 
-Our goal is to define a technology stack for hobby projects with **minimal costs**. We also want to offer real-world examples that go beyond basic tutorials that showcase technologies or features in overly simplified scenarios.
+Our goal is to define a technology stack with **minimal costs** to host MVPs and prototypes for hobby projects. We also want to offer real-world examples that go beyond basic tutorials that showcase technologies or features in overly simplified scenarios. The current running cost for the stack is 4$ USD.
 
 We decided to gear this tech stack towards **commercial projects** which meant opting for a private container registry and code repository.
 
-| Features                         | Tools                                  | Costs |
+***REMINDER:** You should consider and address any security and performance concerns related to your specific context before blindly moving this stack into production.*
+
+<!-- | Features                         | Tools                                  | Costs |
 | -------------------------------- | -------------------------------------- | ----- |
 | Hosting                          | [DigitalOcean](https://www.digitalocean.com/pricing/#Compute) | **4$**    |
 | Container Registry (**Private**) | [JFrog](#) | Free |
@@ -25,30 +30,28 @@ We decided to gear this tech stack towards **commercial projects** which meant o
 | APIs                             |                                        | *N/A*  |
 | Database                         |                                        | *N/A*  |
 
-*\* GitLab Container Registry is only available for projects hosted on GitLab.*
+*\* GitLab Container Registry is only available for projects hosted on GitLab.* -->
 
+<!-- omit in toc -->
 ## Table of Contents
 
-- [Hobby Stacks - Service-Oriented Architecture (SOA) on DigitalOcean](#hobby-stacks---service-oriented-architecture-soa-on-digitalocean)
-  - [Why create *Hobby Stacks*?](#why-create-hobby-stacks)
-  - [Table of Contents](#table-of-contents)
-  - [Sample : Weather Forecasts](#sample--weather-forecasts)
-    - [Technologies](#technologies)
-    - [Architecture](#architecture)
-    - [CI/CD Pipeline](#cicd-pipeline)
-  - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-      - [Software](#software)
-      - [DigitalOcean](#digitalocean)
-      - [JFrog](#jfrog)
-    - [Run Locally](#run-locally)
-      - [Run .NET Test Suites](#run-net-test-suites)
-      - [Run React Test Suites](#run-react-test-suites)
-      - [Launch All Services with Docker Compose](#launch-all-services-with-docker-compose)
-    - [Provisioning](#provisioning)
-      - [Provision Infrastructure with Terraform](#provision-infrastructure-with-terraform)
-  - [Authors](#authors)
-  - [License](#license)
+- [Sample : Weather Forecasts](#sample--weather-forecasts)
+  - [Technologies](#technologies)
+  - [Architecture](#architecture)
+  - [CI/CD Pipeline](#cicd-pipeline)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+    - [Software](#software)
+    - [DigitalOcean](#digitalocean)
+    - [JFrog](#jfrog)
+  - [Run Locally](#run-locally)
+    - [Run .NET Test Suites](#run-net-test-suites)
+    - [Run React Test Suites](#run-react-test-suites)
+    - [Launch All Services with Docker Compose](#launch-all-services-with-docker-compose)
+  - [Provisioning](#provisioning)
+    - [Provision Infrastructure with Terraform](#provision-infrastructure-with-terraform)
+- [Authors](#authors)
+- [License](#license)
 
 ## Sample : Weather Forecasts
 
