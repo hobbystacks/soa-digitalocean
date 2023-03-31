@@ -10,39 +10,95 @@ Our goal is to define a technology stack for hobby projects with **minimal costs
 
 We decided to gear this tech stack towards **commercial projects** which meant opting for a private container registry and code repository.
 
-| Features                         | Tools                                  | Alternatives       | Costs |
-| -------------------------------- | -------------------------------------- | ------------------ | ----- |
-| Hosting                          | [DigitalOcean](https://www.digitalocean.com/pricing/#Compute) | [Vultur](https://www.vultr.com/products/cloud-compute/#pricing) | **5$**    |
-| Container Registry (**Private**) | [Azure Container Registry](https://azure.microsoft.com/en-ca/services/container-registry/) | [GitLab Container Registry](https://docs.gitlab.com/ee/user/project/container_registry.html)* | **5$** / Free |
-| Repositories (**Private**)       | [Azure DevOps](https://azure.microsoft.com/en-ca/services/devops/git-repos/) | GitLab, GitHub      | *Free*  |
-| CI/CD Pipelines                  | [Azure Pipelines](https://azure.microsoft.com/en-ca/services/devops/pipelines/) | GitLab, GitHub Actions, [Travis CI](https://travis-ci.com/plans/) | *Free*  |
-| Web Server (Reverse Proxy)       | Nginx                                  | Traefik            | *Free*  |
-| Web Performance & Security       | [Cloudflare](https://www.cloudflare.com/plans/#compare-features) | | *Free*  |
-| SSL Certificates                 | [Let's Encrypt](https://letsencrypt.org/about/) + [Certbot](https://certbot.eff.org/about/) | | *Free*  |
-| Multi-Container Tool             | Docker Compose                         |                    | *Free*  |
-| IDE                              | [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/) | [Visual Studio Code](https://code.visualstudio.com/) | *Free*  |
-| Front-end + UI                   |                                        |                    | *N/A*  |
-| APIs                             |                                        |                    | *N/A*  |
-| Database                         |                                        |                    | *N/A*  |
+| Features                         | Tools                                  | Costs |
+| -------------------------------- | -------------------------------------- | ----- |
+| Hosting                          | [DigitalOcean](https://www.digitalocean.com/pricing/#Compute) | **4$**    |
+| Container Registry (**Private**) | [JFrog](#) | Free |
+| Repositories (**Private**)       | [Azure DevOps](https://azure.microsoft.com/en-ca/services/devops/git-repos/), GitHub, GitLab | *Free*  |
+| CI/CD Pipelines                  | [Azure Pipelines](https://azure.microsoft.com/en-ca/services/devops/pipelines/), GitHub Actions, GitLab CI/CD | *Free*  |
+| Reverse Proxy       | Nginx, Traefik                                  | *Free*  |
+| Web Performance & Security       | [Cloudflare](https://www.cloudflare.com/plans/#compare-features) | *Free*  |
+| SSL Certificates                 | [Let's Encrypt](https://letsencrypt.org/about/) + [Certbot](https://certbot.eff.org/about/) or [acme.sh](https://github.com/acmesh-official/acme.sh) | *Free*  |
+| Multi-Container Tool             | Docker Compose                         | *Free*  |
+| IDE                              | [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/), [Visual Studio Code](https://code.visualstudio.com/) | *Free*  |
+| Front-end + UI                   |                                        | *N/A*  |
+| APIs                             |                                        | *N/A*  |
+| Database                         |                                        | *N/A*  |
 
 *\* GitLab Container Registry is only available for projects hosted on GitLab.*
 
-## Getting Started
+## Table of Contents
 
-1. Prerequisites
-    - [Software](#software)
-    - [DigitalOcean](#digitalocean)
-    - [JFrog](#jfrog)
-2. Run Locally
-    - [Run .NET Test Suites](#run-net-test-suites)
-    - [Run React Test Suites](#run-react-test-suites)
-    - [Launch All Services with Docker Compose](#launch-all-services-with-docker-compose)
-3. Provisioning
-    - [Provision Infrastructure with Terraform](#provision-infrastructure-with-terraform)
+- [Hobby Stacks - Service-Oriented Architecture (SOA) on DigitalOcean](#hobby-stacks---service-oriented-architecture-soa-on-digitalocean)
+  - [Why create *Hobby Stacks*?](#why-create-hobby-stacks)
+  - [Table of Contents](#table-of-contents)
+  - [Sample : Weather Forecasts](#sample--weather-forecasts)
+    - [Technologies](#technologies)
+    - [Architecture](#architecture)
+    - [CI/CD Pipeline](#cicd-pipeline)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+      - [Software](#software)
+      - [DigitalOcean](#digitalocean)
+      - [JFrog](#jfrog)
+    - [Run Locally](#run-locally)
+      - [Run .NET Test Suites](#run-net-test-suites)
+      - [Run React Test Suites](#run-react-test-suites)
+      - [Launch All Services with Docker Compose](#launch-all-services-with-docker-compose)
+    - [Provisioning](#provisioning)
+      - [Provision Infrastructure with Terraform](#provision-infrastructure-with-terraform)
+  - [Authors](#authors)
+  - [License](#license)
+
+## Sample : Weather Forecasts
+
+This sample build upon the usual weather forecast SPA and API from the `ASP.NET Core` project templates.
+
+### Technologies
+
+- Containers
+  - Docker
+  - Docker Compose
+- Web
+  - Hosting
+    - DigitalOcean
+  - Reverse Proxies
+    - [nginx-proxy/nginx-proxy](https://github.com/nginx-proxy/nginx-proxy)
+  - SSL Certificates
+    - [nginx-proxy/acme-companion](https://github.com/nginx-proxy/acme-companion)
+- Infrastructure as Code (IaC)
+  - Terraform with Remote Backend/State
+- Frontends
+  - React
+    - TypeScript
+- Backends (APIs)
+  - .NET 7
+    - ASP.NET Core - Web API
+    - C#
+- Databases
+  - PostgreSQL
+- Repositories
+  - Code Repositories
+    - Azure DevOps
+    - GitHub
+  - Docker Registry
+    - JFrog
+  - Terraform Remote Backend
+    - JFrog
+
+### Architecture
+
+N/A
+
+### CI/CD Pipeline
+
+N/A
+
+## Getting Started
 
 ### Prerequisites
 
-### Software
+#### Software
 
 1. Docker Engine
 2. Docker Compose
